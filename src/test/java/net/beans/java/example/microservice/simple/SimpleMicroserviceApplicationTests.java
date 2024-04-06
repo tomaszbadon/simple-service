@@ -2,6 +2,8 @@ package net.beans.java.example.microservice.simple;
 
 import dasniko.testcontainers.keycloak.KeycloakContainer;
 import lombok.extern.slf4j.Slf4j;
+import net.beans.java.example.microservice.simple.model.GreetingInfo;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +32,7 @@ class SimpleMicroserviceApplicationTests {
     private TestRestTemplate template;
 
     @Container
-    private static final KeycloakContainer keycloak = new KeycloakContainer("quay.io/keycloak/keycloak:24.0")
+    private static final KeycloakContainer keycloak = new KeycloakContainer("quay.io/keycloak/keycloak:24.0.2")
             .withEnv("DB_VENDOR", "h2")
             .withAdminUsername("admin")
             .withAdminPassword("admin")
@@ -46,13 +48,47 @@ class SimpleMicroserviceApplicationTests {
     }
 
     @Test
-    void authorisationTest() {
+    @DisplayName("Authorisation Test Without Token")
+    void authorisationWithoutTokenTest() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        var response = template.exchange("/api/greetings/info", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(401));
+    }
+
+    @Test
+    @DisplayName("Authorisation Test With Token - Role not needed")
+    void authorisationWithTokenTest() {
         String accessToken = tokenRetrieverService.authorizeUser("test", "test").getAccessToken().getTokenValue();
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
-		var response = template.exchange("/hello", HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        var response = template.exchange("/api/greetings/info", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        assertThat(response.getBody()).isEqualTo(new GreetingInfo("Hello World!"));
+    }
+
+    @Test
+    @DisplayName("Authorisation Test With Token - Role ApplicationUser needed")
+    void authorisationWithApplicationRoleTest() {
+        String accessToken = tokenRetrieverService.authorizeUser("test", "test").getAccessToken().getTokenValue();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        var response = template.exchange("/api/greetings/message", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        assertThat(response.getBody()).isEqualTo(new GreetingInfo("Hello World!"));
+    }
+
+    @Test
+    @DisplayName("Authorisation Test With Role Admin needed")
+    void authorisationWithTokenAndRoleTest() {
+        String accessToken = tokenRetrieverService.authorizeUser("test", "test").getAccessToken().getTokenValue();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        var response = template.exchange("/greetings/notification", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(403));
     }
 
 }
