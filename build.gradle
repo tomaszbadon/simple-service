@@ -26,9 +26,9 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
@@ -37,8 +37,13 @@ dependencies {
 	testImplementation 'com.github.dasniko:testcontainers-keycloak:3.3.0'
 	testImplementation 'org.keycloak:keycloak-core:24.0.0'
 	testImplementation 'org.assertj:assertj-core'
+	testImplementation 'org.springframework:spring-messaging'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	testAndDevelopmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	runtimeOnly 'com.github.dasniko:testcontainers-keycloak:3.3.0'
+
 }
 
 tasks.named('test') {

@@ -1,16 +1,17 @@
 package net.beans.java.example.microservice.simple;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
-@Slf4j
+@EnableScheduling
+@EnableWebMvc
 public class SimpleMicroserviceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SimpleMicroserviceApplication.class, args);
 	}
-
 
 }

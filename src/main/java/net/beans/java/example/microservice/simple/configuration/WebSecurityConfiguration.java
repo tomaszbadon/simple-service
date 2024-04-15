@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Collection;
@@ -25,15 +24,16 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class WebSecurityConfiguration {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String jwtIssuerUri;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/websocket").permitAll());
         http.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.GET, "/api/greetings/message/**").hasAnyRole(ApplicationRole.ApplicationUser.name()));
-        http.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.GET, "/greetings/notification/**").hasAnyRole(ApplicationRole.ApplicationAdmin.name()));
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.GET, "/api/greetings/notification/**").hasAnyRole(ApplicationRole.ApplicationAdmin.name()));
         http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
         http.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
         http.csrf(AbstractHttpConfigurer::disable);
