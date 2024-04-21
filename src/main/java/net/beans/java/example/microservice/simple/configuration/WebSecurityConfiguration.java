@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Collection;
@@ -30,13 +31,18 @@ public class WebSecurityConfiguration {
     private String jwtIssuerUri;
 
     @Bean
+    JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver() {
+        return JwtIssuerAuthenticationManagerResolver.fromTrustedIssuers(jwtIssuerUri);
+    }
+
+    @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/websocket").permitAll());
         http.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.GET, "/api/greetings/message/**").hasAnyRole(ApplicationRole.ApplicationUser.name()));
         http.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.GET, "/api/greetings/notification/**").hasAnyRole(ApplicationRole.ApplicationAdmin.name()));
         http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
         http.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
-        http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 
