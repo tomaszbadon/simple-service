@@ -2,6 +2,7 @@ package net.beans.java.example.microservice.simple.configuration;
 
 import lombok.RequiredArgsConstructor;
 import net.beans.java.example.microservice.simple.interceptor.AuthInterceptor;
+import net.beans.java.example.microservice.simple.interceptor.CsrfNoopInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -19,6 +20,8 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     private final AuthInterceptor authInterceptor;
 
+    private final CsrfNoopInterceptor csrfChannelInterceptor;
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
@@ -32,6 +35,6 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(authInterceptor);
+        registration.interceptors(csrfChannelInterceptor, authInterceptor);
     }
 }

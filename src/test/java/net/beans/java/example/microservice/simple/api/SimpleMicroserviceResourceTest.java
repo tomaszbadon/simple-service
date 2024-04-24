@@ -61,7 +61,7 @@ class SimpleMicroserviceResourceTest extends SimpleMicroserviceResourceBaseTest 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + ACQUIRED_TOKEN);
-        var response = template.exchange("/greetings/notification", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
+        var response = template.exchange("/api/greetings/notification", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(403));
     }
 
