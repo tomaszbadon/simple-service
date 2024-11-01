@@ -1,4 +1,4 @@
-package net.beans.java.example.microservice.simple.api;
+package net.beans.java.example.microservice.simple.controller.rest;
 
 import dasniko.testcontainers.keycloak.KeycloakContainer;
 import lombok.extern.slf4j.Slf4j;

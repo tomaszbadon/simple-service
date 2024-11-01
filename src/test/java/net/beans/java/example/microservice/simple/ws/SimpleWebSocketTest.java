@@ -1,7 +1,7 @@
 package net.beans.java.example.microservice.simple.ws;
 
 import lombok.extern.slf4j.Slf4j;
-import net.beans.java.example.microservice.simple.api.SimpleMicroserviceResourceBaseTest;
+import net.beans.java.example.microservice.simple.controller.rest.SimpleMicroserviceResourceBaseTest;
 import net.beans.java.example.microservice.simple.model.GreetingInfo;
 import net.beans.java.example.microservice.simple.web.socket.controller.WebSocketController;
 import org.junit.jupiter.api.BeforeEach;
