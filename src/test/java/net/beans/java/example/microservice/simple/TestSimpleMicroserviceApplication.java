@@ -15,6 +15,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @TestConfiguration(proxyBeanMethods = false)
@@ -55,7 +56,7 @@ public class TestSimpleMicroserviceApplication {
             categories.forEach(category -> log.info("Category: " + category.getName()));
 
             try {
-                Category category = categoryRepository.getById(324234L);
+                Category category = categoryRepository.getById(UUID.randomUUID());
                 log.info(category.getName());
             } catch (EntityNotFoundException ex) {
                 log.error(ex.getMessage(), ex);

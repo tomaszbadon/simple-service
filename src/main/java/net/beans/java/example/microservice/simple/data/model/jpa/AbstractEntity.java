@@ -7,6 +7,8 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @MappedSuperclass
@@ -15,6 +17,6 @@ public class AbstractEntity {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    protected long id;
+    protected UUID id;
 
 }

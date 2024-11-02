@@ -7,9 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface CategoryJpaRepository extends JpaRepository<Category, Long> {
+public interface CategoryJpaRepository extends JpaRepository<Category, UUID> {
 
     @Query("select c from Category c left outer join fetch c.subcategories where c.name = :name")
     List<Category> findByName(@Param("name") String name);
