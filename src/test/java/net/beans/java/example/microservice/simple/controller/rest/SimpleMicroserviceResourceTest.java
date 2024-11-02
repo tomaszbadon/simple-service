@@ -1,4 +1,4 @@
-package net.beans.java.example.microservice.simple.api;
+package net.beans.java.example.microservice.simple.controller.rest;
 
 import lombok.extern.slf4j.Slf4j;
 import net.beans.java.example.microservice.simple.model.GreetingInfo;
@@ -38,7 +38,7 @@ class SimpleMicroserviceResourceTest extends SimpleMicroserviceResourceBaseTest 
     void authorisationWithTokenTest() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + ACQUIRED_TOKEN);
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN);
         var response = template.exchange("/api/greetings/info", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isEqualTo(new GreetingInfo("Hello World!"));
@@ -49,7 +49,7 @@ class SimpleMicroserviceResourceTest extends SimpleMicroserviceResourceBaseTest 
     void authorisationWithApplicationRoleTest() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + ACQUIRED_TOKEN);
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN);
         var response = template.exchange("/api/greetings/message", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isEqualTo(new GreetingInfo("Hello World!"));
@@ -60,7 +60,7 @@ class SimpleMicroserviceResourceTest extends SimpleMicroserviceResourceBaseTest 
     void authorisationWithTokenAndRoleTest() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + ACQUIRED_TOKEN);
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + ACCESS_TOKEN);
         var response = template.exchange("/api/greetings/notification", HttpMethod.GET, new HttpEntity<>(httpHeaders), GreetingInfo.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(403));
     }

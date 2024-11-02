@@ -1,7 +1,7 @@
 package net.beans.java.example.microservice.simple.ws;
 
 import lombok.extern.slf4j.Slf4j;
-import net.beans.java.example.microservice.simple.api.SimpleMicroserviceResourceBaseTest;
+import net.beans.java.example.microservice.simple.controller.rest.SimpleMicroserviceResourceBaseTest;
 import net.beans.java.example.microservice.simple.model.GreetingInfo;
 import net.beans.java.example.microservice.simple.web.socket.controller.WebSocketController;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,10 +102,10 @@ public class SimpleWebSocketTest extends SimpleMicroserviceResourceBaseTest {
 
     private static Stream<Arguments> headers() {
         WebSocketHttpHeaders httpHeaders = new WebSocketHttpHeaders();
-        httpHeaders.add(WebSocketHttpHeaders.AUTHORIZATION, MessageFormat.format("Bearer {0}", ACQUIRED_TOKEN));
+        httpHeaders.add(WebSocketHttpHeaders.AUTHORIZATION, MessageFormat.format("Bearer {0}", ACCESS_TOKEN));
 
         StompHeaders stompHeaders = new StompHeaders();
-        stompHeaders.add(WebSocketHttpHeaders.AUTHORIZATION, MessageFormat.format("Bearer {0}", ACQUIRED_TOKEN));
+        stompHeaders.add(WebSocketHttpHeaders.AUTHORIZATION, MessageFormat.format("Bearer {0}", ACCESS_TOKEN));
 
         return Stream.of(Arguments.of(httpHeaders, new StompHeaders()), Arguments.of(new WebSocketHttpHeaders(), stompHeaders));
     }

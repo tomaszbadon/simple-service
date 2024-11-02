@@ -1,4 +1,4 @@
-package net.beans.java.example.microservice.simple.api;
+package net.beans.java.example.microservice.simple.controller.rest;
 
 import net.beans.java.example.microservice.simple.model.GreetingInfo;
 import org.springframework.http.ResponseEntity;
