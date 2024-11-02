@@ -14,6 +14,7 @@ import org.testcontainers.containers.Network;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 
+import static java.text.MessageFormat.format;
 import static org.springframework.test.util.AssertionErrors.fail;
 
 @Slf4j
@@ -23,7 +24,6 @@ public class SimpleMicroserviceResourceBaseTest {
     public static final String CLENT_ID = "simple-microservice";
     public static final String REALM_NAME = "simple-application-realm";
     public static String ACCESS_TOKEN;
-
     private static final Network network = Network.newNetwork();
 
     @Container
@@ -48,12 +48,15 @@ public class SimpleMicroserviceResourceBaseTest {
         registry.add("spring.security.oauth2.client.provider.keycloak.token-uri", () -> keycloak.getAuthServerUrl() + "/realms/simple-application-realm/protocol/openid-connect/token");
         registry.add("spring.security.oauth2.client.registration.keycloak.client-id", () -> CLENT_ID);
         registry.add("spring.security.oauth2.client.registration.keycloak.client-secret", () -> CLIENT_SECRET);
+        registry.add("spring.datasource.url", mysqlContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", mysqlContainer::getUsername);
+        registry.add("spring.datasource.password", mysqlContainer::getPassword);
     }
 
     @BeforeAll
     static void acquireToken() {
 
-        mysqlContainer.start();
+//        mysqlContainer.start();
 
         try (var client = KeycloakBuilder.builder()
                 .serverUrl(keycloak.getAuthServerUrl())
