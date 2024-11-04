@@ -50,7 +50,7 @@ public class SimpleWebSocketTest extends SimpleMicroserviceResourceBaseTest {
 
     private static final MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
 
-    private static final String URI = "ws://localhost:%s/api/websocket";
+    private static final String URI = "ws://localhost:%s/websocket";
 
 
     private WebSocketClient client;
