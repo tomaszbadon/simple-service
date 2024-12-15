@@ -4,16 +4,11 @@ pipeline {
 
     stages {
 
-        staga("build") {
-
+        stage("test") {
             steps {
-
-                echo 'Building the application...'
-
+                sh './gradlew clean test --no-daemon'
             }
-
         }
 
     }
-
 }
