@@ -44,7 +44,7 @@ dependencies {
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'com.github.dasniko:testcontainers-keycloak:3.3.0'
 	testImplementation "org.testcontainers:mysql:1.20.3"
-	testImplementation 'org.keycloak:keycloak-core:24.0.3'
+	testImplementation 'org.keycloak:keycloak-core:25.0.4'
 	testImplementation 'org.assertj:assertj-core'
 	testImplementation 'org.springframework:spring-messaging'
 	testCompileOnly 'org.projectlombok:lombok'
