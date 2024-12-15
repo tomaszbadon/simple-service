@@ -10,6 +10,8 @@ pipeline {
 
                 echo 'Building the application...'
 
+                echo | java -version
+
             }
 
         }
