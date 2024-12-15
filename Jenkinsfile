@@ -4,7 +4,7 @@ pipeline {
 
     stages {
 
-        staga("build") {
+        stage("build") {
 
             steps {
 
