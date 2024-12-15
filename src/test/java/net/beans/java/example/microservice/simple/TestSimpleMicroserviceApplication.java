@@ -2,9 +2,11 @@ package net.beans.java.example.microservice.simple;
 
 import dasniko.testcontainers.keycloak.KeycloakContainer;
 import lombok.extern.slf4j.Slf4j;
+import net.beans.java.example.microservice.simple.data.model.dto.category.CategoryInfo;
 import net.beans.java.example.microservice.simple.data.model.jpa.Category;
 import net.beans.java.example.microservice.simple.exception.EntityNotFoundException;
 import net.beans.java.example.microservice.simple.repository.CategoryRepository;
+import net.beans.java.example.microservice.simple.service.CategoryService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -15,6 +17,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -46,7 +49,7 @@ public class TestSimpleMicroserviceApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(CategoryRepository categoryRepository) {
+    public CommandLineRunner commandLineRunner(CategoryRepository categoryRepository, CategoryService categoryService) {
         return (args) -> {
             List<Category> categories = categoryRepository.findByName("Electronics");
             log.info("Number of subcategories is: " + categories.get(0).getSubcategories().size());
@@ -62,6 +65,9 @@ public class TestSimpleMicroserviceApplication {
                 log.error(ex.getMessage(), ex);
             }
 
+            CategoryInfo info = new CategoryInfo(null, "Sex Toys", "Some very nice things", null, null, Set.of());
+            Category category = categoryService.create(info);
+            log.info(category.toString());
         };
     }
 

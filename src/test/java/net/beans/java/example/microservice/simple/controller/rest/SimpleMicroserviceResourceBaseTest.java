@@ -14,7 +14,6 @@ import org.testcontainers.containers.Network;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 
-import static java.text.MessageFormat.format;
 import static org.springframework.test.util.AssertionErrors.fail;
 
 @Slf4j

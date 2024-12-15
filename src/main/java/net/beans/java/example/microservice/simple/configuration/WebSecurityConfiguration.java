@@ -38,7 +38,8 @@ public class WebSecurityConfiguration {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/websocket").permitAll());
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/websocket").permitAll());
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.POST, "/v1/categories").hasAnyRole(ApplicationRole.ApplicationUser.name()));
         http.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.GET, "/api/greetings/message/**").hasAnyRole(ApplicationRole.ApplicationUser.name()));
         http.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.GET, "/api/greetings/notification/**").hasAnyRole(ApplicationRole.ApplicationAdmin.name()));
         http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
