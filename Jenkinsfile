@@ -1,9 +1,7 @@
 pipeline {
 
-    agent {
-        docker { image 'openjdk:17-ea-alpine' }
-    }
-
+    agent any
+    
     stages {
 
         stage("build") {
