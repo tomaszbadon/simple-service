@@ -13,7 +13,7 @@
                   stage('Prepare Container') {
                       echo 'Hello World!'
                       sh '''
-                        sleep 5m
+                        java -version
                       '''
                   }
               }
