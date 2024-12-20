@@ -2,7 +2,7 @@
     agentContainer: 'openjdk',
     agentInjection: true,
     containers: [
-      containerTemplate(name: 'openjdk', image: 'openjdk:17-alpine'),
+      containerTemplate(name: 'openjdk', image: 'openjdk:17'),
     ]) {
   
       node(POD_LABEL) {
