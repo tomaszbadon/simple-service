@@ -1,9 +1,4 @@
-pipeline {
-    agent none
-    
-    stages {
-
-        podTemplate(
+podTemplate(
   agentContainer: 'maven',
   agentInjection: true,
   containers: [
@@ -34,8 +29,5 @@ pipeline {
             }
         }
 
-    }
-}
-        
     }
 }
