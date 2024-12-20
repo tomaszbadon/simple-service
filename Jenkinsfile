@@ -12,13 +12,6 @@ pipeline {
                     containers {
                         containerTemplate(name: 'myContainer', image: 'openjdk:17')
                     }
-                    
-                    volumes {
-                        secretVolume {
-                            name 'my-secret'
-                            secretName 'my-secret-name' 
-                        }
-                    }
                 }
             
             steps {
