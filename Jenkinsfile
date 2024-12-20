@@ -1,13 +1,13 @@
 podTemplate(
-  agentContainer: 'ubuntu',
+  agentContainer: 'openjdk',
   agentInjection: true,
   containers: [
-    containerTemplate(name: 'ubuntu', image: 'ubuntu:latest'),
+    containerTemplate(name: 'openjdk', image: 'openjdk:17'),
   ]) {
 
     node(POD_LABEL) {
         stage('Building Simple Service') {
-            container('ubuntu') {
+            container('openjdk') {
                 stage('Prepare Container') {
                     echo 'Hello World!'
                 }
