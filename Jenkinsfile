@@ -6,8 +6,7 @@
     ]) {
   
       node(POD_LABEL) {
-        pipeline {
-          stages{
+
           stage('Building Simple Service') {
               container('openjdk') {
                   stage('Prepare Container') {
@@ -17,8 +16,6 @@
                       '''
                   }
               }
-          }
-          }
-        }
+           }
       }
   }
