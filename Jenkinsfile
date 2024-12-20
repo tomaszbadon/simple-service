@@ -13,6 +13,7 @@ pipeline {
                         containerTemplate(name: 'myContainer', image: 'openjdk:17')
                     }
                 }
+            }
             
             steps {
                 sh './gradlew clean build -x test  --no-daemon'
