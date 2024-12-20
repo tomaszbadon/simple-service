@@ -2,7 +2,7 @@ podTemplate(
   agentContainer: 'openjdk',
   agentInjection: true,
   containers: [
-    containerTemplate(name: 'openjdk', image: 'openjdk:17'),
+    containerTemplate(name: 'openjdk', image: 'openjdk:17-alpine'),
   ]) {
 
     node(POD_LABEL) {
