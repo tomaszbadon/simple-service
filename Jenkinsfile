@@ -1,19 +1,30 @@
-podTemplate(
-  agentContainer: 'maven',
-  agentInjection: true,
-  containers: [
-    containerTemplate(name: 'maven', image: 'maven:3.9.9-eclipse-temurin-17'),
-    containerTemplate(name: 'golang', image: 'golang:1.16.5', command: 'sleep', args: '99d')
-  ]) {
-
-    node(POD_LABEL) {
-        stage('Get a Maven project') {
-            git 'https://github.com/tomaszbadon/simple-service.git'
-            container('maven') {
-                stage('Build a Maven project') {
-                    sh './gradlew clean build -x test  --no-daemon'
-                }
-            }
-        }
+pipeline {
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            some-label: some-label-value
+        spec:
+          containers:
+          - name: maven
+            image: maven:3.9.9-eclipse-temurin-17
+            command:
+            - cat
+            tty: true
+        '''
+      retries 2
     }
+  }
+  stages {
+    stage('Run maven') {
+      steps {
+        container('maven') {
+          sh './gradlew clean build -x test  --no-daemon'
+        }
+      }
+    }
+  }
 }
