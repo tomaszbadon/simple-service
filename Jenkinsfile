@@ -1,11 +1,8 @@
 pipeline {
-
-    agent any
+    agent none
     
     stages {
-
-        stage("build") {
-
+        stage('Run in Kubernetes') {
             steps {
                 kubernetesPodTemplate {
                     // Your pod template configuration here
@@ -13,12 +10,11 @@ pipeline {
                         containerTemplate(name: 'myContainer', image: 'openjdk:17')
                     }
                 }
-            }
-            
-            steps {
-                sh './gradlew clean build -x test  --no-daemon'
+                
+                steps {
+                    sh './gradlew clean build -x test  --no-daemon'
+                }
             }
         }
-
     }
 }
