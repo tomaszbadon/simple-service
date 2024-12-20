@@ -1,5 +1,5 @@
 podTemplate(
-  agentContainer: 'maven',
+  agentContainer: 'ubuntu',
   agentInjection: true,
   containers: [
     containerTemplate(name: 'ubuntu', image: 'ubuntu:latest'),
