@@ -10,7 +10,7 @@ pipeline {
         spec:
           containers:
           - name: alpine
-            image: alpine-openjdk17
+            image: tomaszbadon/alpine-openjdk17
             command:
             - cat
             tty: true
