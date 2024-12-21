@@ -9,8 +9,8 @@ pipeline {
             some-label: some-label-value
         spec:
           containers:
-          - name: maven
-            image: maven:3.9.9-eclipse-temurin-17
+          - name: alpine
+            image: alpine-openjdk17
             command:
             - cat
             tty: true
@@ -19,9 +19,9 @@ pipeline {
     }
   }
   stages {
-    stage('Run maven') {
+    stage('Build Simple-Service') {
       steps {
-        container('maven') {
+        container('alpine') {
           sh './gradlew clean build -x test  --no-daemon'
         }
       }
